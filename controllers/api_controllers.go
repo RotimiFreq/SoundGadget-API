@@ -15,7 +15,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 // validator variable to validate our string
@@ -25,18 +24,13 @@ var validate = validator.New()
 // variable for our data models
 var product models.Product
 
-// function create a new collection in out
-func createColl(collectionName string) *mongo.Collection {
+// Creating a new collection
 
-	createdColl := configs.GetCollection(configs.DB, collectionName)
+var newColl = configs.GetCollection(configs.DB, "Sound-Gadget")
 
-	return createdColl
+// Endpoints
 
-}
-
-var newColl = createColl("Sound-Gadget")
-
-func CreateProduct(c *fiber.Ctx) error {
+func AddProduct(c *fiber.Ctx) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 
 	defer cancel()
